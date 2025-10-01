@@ -58,7 +58,7 @@ jobs:
       run: |
           git_hash=$(git rev-parse --short "$GITHUB_SHA")
           version=$(cat ./charts/eks-gitops-argocd/values.yaml | grep version: | awk '{print $2}')
-          sed -i "s/$version/${GITHUB_REF##*/}-$git_hash/" ./charts/eks-gitops-argocd/values.yaml
+          sed -i "s|version:.*|version: 0.1.0-$git_hash|" charts/eks-gitops-argocd/Chart.yaml
           OLD_REPO=`grep 1234567890 ./charts/eks-gitops-argocd/values.yaml | cut -d ':' -f2`
           NEW_REPO="${ECR_REGISTRY}/${ECR_REPOSITORY}"
           sed -i "s|$OLD_REPO| $NEW_REPO|" ./charts/eks-gitops-argocd/values.yaml
